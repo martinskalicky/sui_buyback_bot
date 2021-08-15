@@ -3,8 +3,6 @@ name: .NET
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -34,6 +32,8 @@ jobs:
       run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} ./scripts/stop.sh
     - name: Deploy rsync
       run: rsync -avz ./ ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}}:/home/sui_buyback_bot/buyback_bot_src/
+    - name: Deploy Database Changes
+      run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} ./scripts/deploy_db.sh
     - name: Start Application
       run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} ./scripts/start.sh
       
