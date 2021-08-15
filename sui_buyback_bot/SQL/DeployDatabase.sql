@@ -110,10 +110,8 @@ INSERT IGNORE INTO settings(settings_key, settings_value, settings_description) 
 INSERT IGNORE INTO settings(settings_key, settings_value, settings_description) VALUES ('BUYBACK_MIN_DAYS', '-7', 'Needs to be numeric value <0;-X>');
 INSERT IGNORE INTO settings(settings_key, settings_value, settings_description) VALUES ('JF_BASIC_MOVE_PRICE', '1000', 'Needs to be numeric value <0;X>');
 
+# UNCOMMENT below if you are not doing migration but first installation
 #INSERT IGNORE INTO users(registered_by, paycheck_name, status, privileges, balance)
 #VALUES ('SUI', 'SUI', 'ACTIVE', 'BOT', 0);
-
-# Needed if there is a lot of transactions
-SET GLOBAL max_connections = 5000;
 
 # BEGIN ALTERS
