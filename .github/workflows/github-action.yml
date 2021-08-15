@@ -32,3 +32,4 @@ jobs:
       run: ssh-keyscan -H ${{secrets.SKEPY_PROD_HOST}} >> ~/.ssh/known_hosts
     - name: Deploy rsync
       run: rsync -avz ./ ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}}:/home/sui_buyback_bot/
+      
