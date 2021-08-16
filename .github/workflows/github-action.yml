@@ -29,11 +29,11 @@ jobs:
     - name: Adding Known Host
       run: ssh-keyscan -H ${{secrets.SKEPY_PROD_HOST}} >> ~/.ssh/known_hosts
     - name: Stop Application
-      run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} ./scripts/stop.sh
+      run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} "at now -f ./scripts/stop.sh"
     - name: Deploy rsync
       run: rsync -avz ./ ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}}:/home/sui_buyback_bot/buyback_bot_src/
     - name: Deploy Database Changes
-      run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} ./scripts/deploy_db.sh
+      run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} "at now -f ./scripts/deploy_db.sh"
     - name: Start Application
-      run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} ./scripts/start.sh
+      run: ssh -t ${{secrets.SKEPY_PROD_USER}}@${{secrets.SKEPY_PROD_HOST}} "at now -f ./scripts/start.sh"
       
