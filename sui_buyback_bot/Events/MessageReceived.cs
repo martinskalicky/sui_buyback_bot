@@ -28,6 +28,7 @@ namespace SkepyUniverseIndustry_DiscordBot.Events
                         {
                             AccountManager.AccountManager.ProcessBuyback(message, rMessage.Content.Split("!bb ")[1],
                                 false);
+                            return;
                         }
 
                         if (message.Content == "!c")
