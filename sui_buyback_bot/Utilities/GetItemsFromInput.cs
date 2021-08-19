@@ -20,13 +20,15 @@ namespace SkepyUniverseIndustry_DiscordBot.Utilities
                 {
                     double compression = 100;
                     if (iceRange.Contains(item.Key)) compression = 1;
-                    if (item.Value >= compression)
+                    string newItem = "Compressed " + item.Key;
+                    double resultCompressionValue = item.Value / compression;
+                    if (compressedItems.ContainsKey(newItem))
                     {
-                        string newItem = "Compressed " + item.Key;
-                        double resultCompressionValue = item.Value / compression;
-                        compressedItems.TryAdd(newItem, resultCompressionValue);
+                        compressedItems[newItem] = compressedItems[newItem] + resultCompressionValue;
                         continue;
                     }
+                    compressedItems.TryAdd(newItem, resultCompressionValue);
+                    continue;
                 }
 
                 if (compressedItems.ContainsKey(item.Key))
