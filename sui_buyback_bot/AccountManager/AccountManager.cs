@@ -504,7 +504,7 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                     }
 
                     //TODO: compressed items leftovers add
-                    if (items[fleetItems.Key] < 100)
+                    if (items[fleetItems.Key] > 100)
                     {
                         message.Channel.SendMessageAsync(
                             $"You are missing {fleetItems.Key} quantity {fleetItems.Value}");
