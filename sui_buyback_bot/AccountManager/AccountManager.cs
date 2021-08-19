@@ -503,7 +503,8 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                         transactionRemoveFromFleet.Rollback();
                     }
 
-                    if (items[fleetItems.Key] < 0)
+                    //TODO: compressed items leftovers add
+                    if (items[fleetItems.Key] < 100)
                     {
                         message.Channel.SendMessageAsync(
                             $"You are missing {fleetItems.Key} quantity {fleetItems.Value}");
