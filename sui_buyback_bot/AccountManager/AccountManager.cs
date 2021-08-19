@@ -498,9 +498,16 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                     else
                     {
                         message.Channel.SendMessageAsync(
-                            $"You are missing {fleetItems.Key} quantity {fleetItems.Value}");
+                            $"You forgot to enter {fleetItems.Key} quantity {fleetItems.Value}");
                         message.AddReactionAsync(CrossMessage);
                         transactionRemoveFromFleet.Rollback();
+                    }
+                    if (Math.Round(items[fleetItems.Key], 5) < 0)
+                    {
+                        message.Channel.SendMessageAsync(
+                            $"You are missing {fleetItems.Key} quantity {items[fleetItems.Key]:n0}, please check your inventory again.");
+                        throw new Exception(
+                            message: $"You are trying to save less items that you gathered from people.");
                     }
                 }
 
@@ -630,7 +637,7 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
 
                     if (builder.Fields.Count() <= 24 && buildFields)
                     {
-                        builder.AddField($"{item.Key} - {item.Value}x",
+                        builder.AddField($"{item.Key} - {item.Value:N}x",
                             $"{Math.Ceiling(item.Value * priceForUnit * usedBuybackRate):n0} ISK, {priceForUnit * usedBuybackRate:n0} ISK/Piece");
                         continue;
                     }
@@ -643,7 +650,6 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                     DatabaseHandler.CreateTransactionsInProcessing(dbClient, transaction, message, "1", accountNumber, totalIsk) &&
                     DatabaseHandler.UpdateProcessedData(accountNumber, dbClient, transaction))
                 {
-                    //AccountFrom FROM might be differ, should be 1 on production.
                     transaction.Commit();
                     builder.WithColor(Color.Gold);
                     builder.WithFooter($"TOTAL: {Math.Ceiling(totalIsk):n0} ISK. BUYBACK: {usedBuybackRate*100} %.");
