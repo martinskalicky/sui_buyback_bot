@@ -505,6 +505,8 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
 
                     if (items[fleetItems.Key] < 0)
                     {
+                        message.Channel.SendMessageAsync(
+                            $"You are missing {fleetItems.Key} quantity {fleetItems.Value}");
                         throw new Exception(
                             message: $"You are trying to save less items that you gathered from people.");
                     }
