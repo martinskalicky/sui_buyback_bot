@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
 using Discord.WebSocket;
 using MySqlConnector;
 
@@ -40,7 +38,7 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
             }
             finally
             {
-                client.CloseAsync();
+                client.Close();
             }
         }//:TODO method for execution instead of logic in those (scalar, NQ, Reader. BT)
         public static bool CreateFleet(string registeredBy)
@@ -60,6 +58,10 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
                 Console.WriteLine(e);
                 return false;
             }
+            finally
+            {
+                client.Close();
+            }
         }
         public static bool EndFleet(string registeredBy)
         {
@@ -77,6 +79,10 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
                 Console.WriteLine(e);
                 return false;
             }
+            finally
+            {
+                client.Close();
+            }
         }
         public static DateTime CheckActive(string registeredBy)
         {
@@ -92,6 +98,10 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
             catch (Exception e)
             {
                 Console.WriteLine(e);
+            }
+            finally
+            {
+                client.Close();
             }
 
             return default;
@@ -236,7 +246,9 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
             var sqlCommand = $"INSERT INTO input_data_fleets(id, account_number, item_name, item_quantity) " +
                              $"VALUES('{fleetId}','{accountNumber}', '{inputItemName}', '{inputItemQuantity}')";
             var command = new MySqlCommand(sqlCommand, client);
-            return command.ExecuteNonQuery();
+            var result = command.ExecuteNonQuery();
+            client.Close();
+            return result;
         }
         public static object GetUsersDatabaseFieldRegisteredBy(string registeredBy, string databaseField)
         {
@@ -244,7 +256,9 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
             client.Open();
             var sqlCommand = $"SELECT {databaseField} FROM users WHERE registered_by = '{registeredBy}' LIMIT 1";
             var command = new MySqlCommand(sqlCommand, client);
-            return command.ExecuteScalar();
+            var result = command.ExecuteScalar();
+            client.Close();
+            return result;
         }
         public static object GetUsersDatabaseField(string accountId, string databaseField)
         {
@@ -252,7 +266,9 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
             client.Open();
             var sqlCommand = $"SELECT {databaseField} FROM users WHERE id = '{accountId}'";
             var command = new MySqlCommand(sqlCommand, client);
-            return command.ExecuteScalar();
+            var result = command.ExecuteScalar();
+            client.Close();
+            return result;
         }
         public static object CheckIfUserExists(string accountId)
         {
@@ -260,7 +276,9 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
             client.Open();
             var sqlCommand = $"SELECT id FROM users WHERE id = '{accountId}'";
             var command = new MySqlCommand(sqlCommand, client);
-            return command.ExecuteScalar();
+            var result = command.ExecuteScalar();
+            client.Close();
+            return result;
         }
         
         public static object CheckPayCheck(SocketMessage message)
@@ -269,7 +287,9 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
             client.Open();
             var sqlCommand = $"SELECT COUNT(payment_id) FROM sui.payments WHERE registered_by = '{message.Author}' AND status = 'NEW'";
             var command = new MySqlCommand(sqlCommand, client);
-            return command.ExecuteScalar();
+            var result = command.ExecuteScalar();
+            client.Close();
+            return result;
         }
         public static bool CreatePayCheck(SocketMessage message)
         {
@@ -338,6 +358,7 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
                     returnPaylist.Add(new Tuple<string, ulong, int>(reader.GetString(0), reader.GetUInt64(1), reader.GetInt32(2)));
                 }
             }
+            client.Close();
             return returnPaylist;
         }
         public static List<string> GetAdminList()
@@ -355,6 +376,7 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
                     authList.Add(authorizedList.GetString(0));
                 }
             }
+            client.Close();
             return authList;
         }
         public static Dictionary<string, double> GetUnprocessedItems(string accountNumber, MySqlConnection client, MySqlTransaction transaction)
@@ -565,6 +587,10 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
                     Console.WriteLine(e);
                     throw;
                 }
+                finally
+                {
+                    client.Close();
+                }
             }
         }
         public static object ExecuteScalarObject(string sqlCommand)
@@ -587,6 +613,10 @@ namespace SkepyUniverseIndustry_DiscordBot.Database
                 {
                     Console.WriteLine(e);
                     throw;
+                }
+                finally
+                {
+                    client.Close();
                 }
             }
         }

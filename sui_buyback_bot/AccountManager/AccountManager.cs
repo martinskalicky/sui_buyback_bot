@@ -84,7 +84,7 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
             ulong total = 0;
             var builder = new EmbedBuilder();
             await message.AddReactionAsync(SavedMessage);
-            builder.WithTitle("Current paycheck waiting to complete.");
+            builder.WithTitle("Current paychecks waiting to complete.");
 
             List<Tuple<string, ulong, int>> results = DatabaseHandler.GetPaylist();
             foreach (var rows in results)
