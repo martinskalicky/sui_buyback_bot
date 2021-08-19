@@ -502,15 +502,6 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                         message.AddReactionAsync(CrossMessage);
                         transactionRemoveFromFleet.Rollback();
                     }
-
-                    //TODO: compressed items leftovers add
-                    if (items[fleetItems.Key] > 100)
-                    {
-                        message.Channel.SendMessageAsync(
-                            $"You are missing {fleetItems.Key} quantity {fleetItems.Value}");
-                        throw new Exception(
-                            message: $"You are trying to save less items that you gathered from people.");
-                    }
                 }
 
                 if (DatabaseHandler.UpdateItemsFromFleet(fleetId, dbClient, transactionRemoveFromFleet))
