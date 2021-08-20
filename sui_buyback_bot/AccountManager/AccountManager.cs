@@ -515,6 +515,8 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                 {
                     transactionRemoveFromFleet.Commit();
                 }
+                
+                return items;
             }
             catch (Exception e)
             {
@@ -531,8 +533,6 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
             {
                 dbClient.Close();
             }
-
-            return items;
         }
 
         public static void ProcessBuyback(SocketMessage message, string accountNumber, bool isFleetBuyback)
@@ -586,7 +586,7 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                             item.Value);
                 }
 
-                if (CheckForEndOfFleet(accountNumber, message))
+                if (CheckForEndOfFleet(accountNumber, message) && !isFleetBuyback)
                 {
                     EndFleet(message);
                 }
