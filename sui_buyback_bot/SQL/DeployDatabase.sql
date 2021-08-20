@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS processed_data (
                                                   ON UPDATE CURRENT_TIMESTAMP(3),
                                               status VARCHAR(10) DEFAULT 'NEW',
                                               item_name NVARCHAR(255),
-                                              item_quantity BIGINT,
+                                              item_quantity DOUBLE,
                                               item_price BIGINT,
                                               PRIMARY KEY (id),
                                               FOREIGN KEY (account_number) REFERENCES users(id)
