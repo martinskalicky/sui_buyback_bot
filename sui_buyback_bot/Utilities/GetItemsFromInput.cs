@@ -33,7 +33,7 @@ namespace SkepyUniverseIndustry_DiscordBot.Utilities
 
                 if (compressedItems.ContainsKey(item.Key))
                 {
-                    items.TryGetValue(item.Key, out double amountStored);
+                    compressedItems.TryGetValue(item.Key, out double amountStored);
                     compressedItems[item.Key] = item.Value + amountStored;
                     continue;
                 }
