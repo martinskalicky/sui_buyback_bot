@@ -568,7 +568,7 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
             try
             {
                 items = ItemsOperation.GetItemsFromInput(message);
-                if (CheckForEndOfFleet(accountNumber, message))
+                if (CheckForEndOfFleet(accountNumber, message) && isFleetBuyback)
                 {
                     items = RemoveOreGatheredFromFleet(items, message);
                 }
@@ -586,7 +586,7 @@ namespace SkepyUniverseIndustry_DiscordBot.AccountManager
                             item.Value);
                 }
 
-                if (CheckForEndOfFleet(accountNumber, message) && !isFleetBuyback)
+                if (CheckForEndOfFleet(accountNumber, message) && isFleetBuyback)
                 {
                     EndFleet(message);
                 }
